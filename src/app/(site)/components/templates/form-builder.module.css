@@ -3,10 +3,14 @@
 }
 
 .formDefaultInput {
-    @apply border rounded-sm px-3 py-2 w-full bg-gray-100;
+    @apply border rounded-sm px-3 py-2 w-full bg-gray-100 col-span-3;
     border-color: #ccc;
 }
 
 .formInputList {
-    @apply block text-sm font-medium leading-6 text-gray-900
+    @apply block text-sm font-medium leading-6 text-gray-900 w-full
+}
+
+.textarea {
+    @apply col-span-3
 }

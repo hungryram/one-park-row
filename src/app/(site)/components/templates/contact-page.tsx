@@ -34,6 +34,8 @@ interface Props {
     hideContact: any;
     content: any;
     id: string;
+    paddingTop: string;
+    paddingBottom: string;
 }
 
 export default function ContactPage({
@@ -43,36 +45,47 @@ export default function ContactPage({
     altText,
     blurData,
     content,
-    id
+    id,
+    paddingTop,
+    paddingBottom,
 }: Props) {
+
+    const styles = {
+        paddingTop: paddingTop ?? '5rem',
+        paddingBottom: paddingBottom ?? '5rem',
+    }
+
+    const allStyles = { ...backgroundStyles, ...styles }
+
     return (
-        <div style={backgroundStyles} id={id}>
-            <div className="relative overflow-hidden">
-                <div className="absolute -bottom-60 -right-60 -z-10">
-                    {image ?
-                        <Image
-                            src={image}
-                            alt={altText}
-                            placeholder={blurData ? 'blur' : 'empty'}
-                            blurDataURL={blurData}
-                            width={700}
-                            height={500}
-                        />
-                        : null
-                    }
-                </div>
-                <div className="container">
-                    <div className="pt-20 content text-center">
-                        <ContentEditor content={content} />
+        <div style={allStyles} id={id}>
+            <div className="container">
+                <div className="md:flex items-center">
+                    <div className="md:w-1/2">
+                        {image ?
+                            <div className="relative">
+                                <Image
+                                    src={image}
+                                    alt={altText}
+                                    placeholder={blurData ? 'blur' : 'empty'}
+                                    blurDataURL={blurData}
+                                    width={400}
+                                    height={600}
+                                    className="object-contain"
+                                />
+                            </div>
+                            : null
+                        }
                     </div>
-                    <div className="md:flex justify-center md:space-x-20 md:space-y-0 space-y-10 pb-10">
-                        <div className="md:w-3/5">
-                            <div>
-                                <div className="md:p-10 p-4 bg-[#E5E2D7]">
-                                    <FormBuilder
-                                        formSchema={formBuilder}
-                                    />
+                    <div className="md:w-1/2">
+                        <div>
+                            <div className="md:p-10 p-4 bg-white">
+                                <div className="content text-center mb-10">
+                                    <ContentEditor content={content} />
                                 </div>
+                                <FormBuilder
+                                    formSchema={formBuilder}
+                                />
                             </div>
                         </div>
                     </div>

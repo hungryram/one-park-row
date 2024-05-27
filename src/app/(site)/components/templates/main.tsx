@@ -24,6 +24,7 @@ import DisclosureSeparate from "./disclosure-separate";
 import TestimonialsColumn from "./testimonials-column";
 import Map from "./map";
 import AvailabilityTable from "./availability-table";
+import CalltoActionThreeColumn from "./cta-three-column";
 
 interface Props {
     pageBuilder: any[];
@@ -290,6 +291,18 @@ export default function Main({
 
                                 />
                             }
+                            {section.layoutType === 'threeColumn' &&
+                                <CalltoActionThreeColumn
+                                    key={section?._key}
+                                    textAlign={section?.textAlign}
+                                    content={section?.content}
+                                    image={section?.imageData?.asset?.url}
+                                    altText={section?.imageData?.asset?.altText}
+                                    blurData={section?.imageData?.asset?.lqip}
+                                    {...settingsSchema}
+
+                                />
+                            }
                             {section.layoutType === 'textAndImage' &&
                                 <CalltoActionTextImage
                                     key={section?._key}
@@ -490,7 +503,13 @@ export default function Main({
                         <ContactPage
                             key={section?._key}
                             content={section?.content}
+                            {...settingsSchema}
+
                             backgroundStyles={backgroundStyles}
+                            image={section?.imageData?.asset?.url}
+                            altText={section?.imageData?.asset?.altText}
+                            blurData={section?.imageData?.asset?.lqip}
+                            formBuilder={section?.formBuilder}
                             // CONTACT
                             hideContact={section?.hideContact}
                             email={email}
