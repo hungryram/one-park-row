@@ -66,7 +66,7 @@ export default function Footer({
         <Image
           src={urlForImage(image.logo).url()}
           alt={image?.altText ? image?.altText : image?.asset?.altText}
-          width={image?.width ? image?.width : 60}
+          width={image?.width ? image?.width : 100}
           height={48}
           placeholder={image?.asset?.lqip ? 'blur' : 'empty'}
           blurDataURL={image?.asset?.lqip}
@@ -84,38 +84,38 @@ export default function Footer({
   return (
     <footer className={Styles.footer}>
       <div className="container">
-        {singleColumn &&
-          <div className="leading-7 md:flex items-center justify-center text-center md:space-x-6 mb-6">
-            <div className="pt-20">
-              <ul className="text-center text-lg">
-                <li className="inline-block px-4 border-r border-black">
-                  <a href={`/`}>{website}</a>
-                </li>
-                <li className="inline-block px-4 border-r border-black">
-                  <a href={`mailto:${email}`}>{email}</a>
-                </li>
-                <li className="inline-block px-4 border-r border-black">
-                  <a href={`tel:${phone_number}`}>{phone_number}</a>
-                </li>
-                <li className="inline-block px-4">
-                  <a href={`https://www.google.com/maps/place/${address}+${city}+${state}+${zip_code}`} target="_blank">{address} {city}, {state} {zip_code}</a>
-                </li>
-              </ul>
+        <div className="md:flex">
+          <div className="md:w-1/2">
+            <div className="leading-7 md:flex items-center text-left md:space-x-6 mb-6">
+              <div>
+                  <a className="font-semibold" href={`https://www.google.com/maps/place/${address}+${city}+${state}+${zip_code}`} target="_blank">{address} {city}, {state} {zip_code}</a>
+                <ul className="grid grid-cols-2 divide-x font-semibold">
+                  <li className="pr-4">
+                    <a href={`mailto:${email}`}>{email}</a>
+                  </li>
+                  <li className="px-4">
+                    <a href={`tel:${phone_number}`}>{phone_number}</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        }
+          <div className="md:w-1/2">
+            <div className="flex items-center justify-center">
+              {footerLogos?.map((node: any) => (
+                <FooterLogoComponent image={node} />
+              ))}
+            </div>
+          </div>
+        </div>
         {footerDisclaimer &&
-          <div className="text-center text-[10px] my-2">
+          <div className="text-left text-[10px] my-2">
             <ContentEditor
               content={footerDisclaimer}
             />
           </div>
         }
-        <div className="flex items-center justify-center">
-          {footerLogos?.map((node: any) => (
-            <FooterLogoComponent image={node} />
-          ))}
-        </div>
+
         {legal &&
           <ul className="space-y-3 mb-2">
             {legal?.map((node: any) => (
