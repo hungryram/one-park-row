@@ -5,14 +5,14 @@ import './globals.css'
 import { appearance, mainLayoutProfile } from '../../../lib/groq-data'
 import { Metadata } from 'next';
 import GoogleAnalytics from './components/global/analytics'
-import { interFont } from '../fonts'
+import { headingFont, bodyFont } from '../fonts'
 import Pixel from './components/global/pixel'
 import NavbarWide from './components/global/navbar-wide'
 export const revalidate = 0
 
 // GENERATES SEO
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await client.fetch(mainLayoutProfile, { next: { revalidate: 60 } })
+  const data = await client.fetch(mainLayoutProfile)
 
   return {
     title: data?.profileSettings?.seo?.title_tag,
@@ -57,7 +57,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const data = await client.fetch(appearance, { next: { revalidate: 60 } })
+  const data = await client.fetch(appearance)
 
   const localBusiness = {
     "@context": "https://schema.org",
@@ -130,7 +130,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={interFont.variable}>
+      <body className={`${bodyFont.variable} ${headingFont.variable}`}>
         {data?.profileSettings?.settings?.googleID &&
           <GoogleAnalytics GA_TRACKING_ID={data?.profileSettings?.settings?.googleID} />
         }

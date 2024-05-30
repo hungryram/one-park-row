@@ -54,6 +54,7 @@ export default function CalltoActionThreeColumn({
     const styles = {
         paddingTop: paddingTop ?? '5rem',
         paddingBottom: paddingBottom ?? '5rem',
+        borderBottom: '8px solid #bf9283'
     }
 
     const allStyles = { ...backgroundStyles, ...styles }
@@ -61,15 +62,15 @@ export default function CalltoActionThreeColumn({
     return (
         <div style={allStyles}>
             <div className="lg:px-20 md:px-10 px-4 md:flex items-center">
-                <div className="w-48 mx-auto">
+                <div className="w-60 mx-auto">
                     {image &&
                         <Image
                             src={image}
                             alt={altText}
                             placeholder={blurData ? 'blur' : 'empty'}
                             blurDataURL={blurData}
-                            width={400}
-                            height={100}
+                            width={600}
+                            height={200}
                             className="object-contain"
                         />
                     }
@@ -82,7 +83,7 @@ export default function CalltoActionThreeColumn({
                     }
                 </div>
                 <div className="mt-10 flex items-center gap-x-6 lg:mt-0 w-48 md:place-content-end place-content-center mx-auto">
-                    <Link href="mailto:oneparkrow@serhant.com" className="secondary-button">Inquire</Link>
+                    <Link href="mailto:oneparkrow@serhant.com" className="secondary-button !text-xl">Inquire</Link>
                 </div>
             </div>
         </div>

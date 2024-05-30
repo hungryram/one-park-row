@@ -3,8 +3,8 @@
 }
 
 .formDefaultInput {
-    @apply border rounded-sm px-3 py-2 w-full bg-gray-100 col-span-3;
-    border-color: #ccc;
+    @apply border px-3 py-2 w-full col-span-3;
+    border-color: #14104a;
 }
 
 .formInputList {

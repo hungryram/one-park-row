@@ -91,7 +91,7 @@ export default function Footer({
                   <a className="font-semibold" href={`https://www.google.com/maps/place/${address}+${city}+${state}+${zip_code}`} target="_blank">{address} {city}, {state} {zip_code}</a>
                 <ul className="grid grid-cols-2 divide-x font-semibold">
                   <li className="pr-4">
-                    <a href={`mailto:${email}`}>{email}</a>
+                    <span>Contact: </span><a href={`mailto:${email}`}>{email}</a>
                   </li>
                   <li className="px-4">
                     <a href={`tel:${phone_number}`}>{phone_number}</a>
