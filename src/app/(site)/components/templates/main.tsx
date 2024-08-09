@@ -505,7 +505,7 @@ export default function Main({
                             key={section?._key}
                             content={section?.content}
                             {...settingsSchema}
-
+                            oneColumn={section?.oneColumn}
                             backgroundStyles={backgroundStyles}
                             image={section?.imageData?.asset?.url}
                             altText={section?.imageData?.asset?.altText}

@@ -36,6 +36,7 @@ interface Props {
     id: string;
     paddingTop: string;
     paddingBottom: string;
+    oneColumn: boolean;
 }
 
 export default function ContactPage({
@@ -48,6 +49,7 @@ export default function ContactPage({
     id,
     paddingTop,
     paddingBottom,
+    oneColumn
 }: Props) {
 
     const styles = {
@@ -60,24 +62,26 @@ export default function ContactPage({
     return (
         <div style={allStyles} id={id}>
             <div className="container">
-                <div className="md:flex items-center">
-                    <div className="md:w-1/2">
-                        {image ?
-                            <div className="relative">
-                                <Image
-                                    src={image}
-                                    alt={altText}
-                                    placeholder={blurData ? 'blur' : 'empty'}
-                                    blurDataURL={blurData}
-                                    width={400}
-                                    height={600}
-                                    className="object-contain"
-                                />
-                            </div>
-                            : null
-                        }
-                    </div>
-                    <div className="md:w-1/2">
+                <div className="md:flex items-center justify-center">
+                    {!oneColumn &&
+                        <div className="md:w-1/2">
+                            {image ?
+                                <div className="relative">
+                                    <Image
+                                        src={image}
+                                        alt={altText}
+                                        placeholder={blurData ? 'blur' : 'empty'}
+                                        blurDataURL={blurData}
+                                        width={400}
+                                        height={600}
+                                        className="object-contain"
+                                    />
+                                </div>
+                                : null
+                            }
+                        </div>
+                    }
+                    <div className={oneColumn ? '' : 'w-full'}>
                         <div>
                             <div className="md:p-10 p-4 bg-white">
                                 <div className="content text-center mb-10">

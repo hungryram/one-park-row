@@ -16,6 +16,11 @@ export default defineType({
       type: 'contentEditor'
     },
     {
+      title: 'One Column',
+      name: 'oneColumn',
+      type: 'boolean'
+    },
+    {
       title: 'Image',
       name: 'image',
       type: 'image'
