@@ -25,6 +25,11 @@ export default defineType({
             initialValue: "static"
         },
         {
+            title: 'Full Image',
+            name: 'fullImage',
+            type: 'boolean'
+        },
+        {
             title: "Image Height",
             name: "imageHeight",
             type: "string",

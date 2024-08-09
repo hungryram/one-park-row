@@ -159,6 +159,7 @@ export default function Main({
                                         section?.imageHeight === 'mediumScreen' && 'min-h-[70vh]' ||
                                         section?.imageHeight === 'smallScreen' && 'min-h-[50vh]'
                                     }
+                                    fullImage={section?.fullImage}
                                     altText={section?.imageData?.asset?.altText}
                                     blurData={section?.imageData?.asset?.lqip}
                                     textAlign={section?.textAlign}

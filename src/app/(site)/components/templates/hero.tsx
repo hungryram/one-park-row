@@ -15,8 +15,9 @@ interface Props {
     secondaryButtonStyle: any;
     textAlign: string;
     textColor: string;
-    imageOverlayColor: any
-    imageHeight: any
+    imageOverlayColor: any;
+    imageHeight: any;
+    fullImage: boolean;
 }
 
 export default function Hero({
@@ -33,7 +34,8 @@ export default function Hero({
     textAlign,
     textColor,
     imageOverlayColor,
-    imageHeight
+    imageHeight,
+    fullImage
 }: Props) {
 
     // const imageOverlay = {
@@ -42,41 +44,57 @@ export default function Hero({
     // };
 
     return (
-        <div className={`relative isolate inset-0 ${imageHeight} flex items-center`}>
-            {image &&
+        <>
+            {fullImage ?
                 <Image
                     src={image}
                     alt={altText}
                     placeholder={blurData ? 'blur' : 'empty'}
                     blurDataURL={blurData}
-                    className={Styles.heroImage}
-                    fill={true}
+                    width={1000}
+                    height={1000}
+                    className="w-full"
                     sizes="100vw"
                     priority={true}
                 />
-            }
-            {(content || primaryButtonLink || secondaryButtonLink) && (
-                <div className={`container ${Styles.heroInnerContainer}`}>
-                    <div style={{
-                        color: textColor
-                    }}>
-
-                        <HeaderSection
-                            content={content}
-                            textAlign={textAlign}
-                            // PRIMARY
-                            buttonLink={primaryButtonLink}
-                            primaryButtonText={primaryButtonText}
-                            primaryButtonStyle={primaryButtonStyle}
-                            // SECONDARY
-                            secondaryButtonLink={secondaryButtonLink}
-                            secondaryButtonText={secondaryButtonText}
-                            secondaryButtonStyle={secondaryButtonStyle}
+                :
+                <div className={`relative isolate inset-0 ${imageHeight} flex items-center`}>
+                    {image &&
+                        <Image
+                            src={image}
+                            alt={altText}
+                            placeholder={blurData ? 'blur' : 'empty'}
+                            blurDataURL={blurData}
+                            className={Styles.heroImage}
+                            fill={true}
+                            sizes="100vw"
+                            priority={true}
                         />
-                    </div>
+                    }
+                    {(content || primaryButtonLink || secondaryButtonLink) && (
+                        <div className={`container ${Styles.heroInnerContainer}`}>
+                            <div style={{
+                                color: textColor
+                            }}>
+
+                                <HeaderSection
+                                    content={content}
+                                    textAlign={textAlign}
+                                    // PRIMARY
+                                    buttonLink={primaryButtonLink}
+                                    primaryButtonText={primaryButtonText}
+                                    primaryButtonStyle={primaryButtonStyle}
+                                    // SECONDARY
+                                    secondaryButtonLink={secondaryButtonLink}
+                                    secondaryButtonText={secondaryButtonText}
+                                    secondaryButtonStyle={secondaryButtonStyle}
+                                />
+                            </div>
+                        </div>
+                    )
+                    }
                 </div>
-            )
             }
-        </div>
+        </>
     )
 }
