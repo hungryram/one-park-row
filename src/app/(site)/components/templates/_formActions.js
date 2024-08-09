@@ -65,8 +65,8 @@ export const submitForm = async (data) => {
   `;
 
     if (honeypot.length === 0) {
-        if (process.env.NEXT_PUBLIC_POSTMARK_API_TOKEN) {
-            const client = new ServerClient(process.env.NEXT_PUBLIC_POSTMARK_API_TOKEN);
+        if (process.env.POSTMARK_API_TOKEN) {
+            const client = new ServerClient(process.env.POSTMARK_API_TOKEN);
 
             const response = await client.sendEmail({
                 "From": data.get('sendFrom'), // must match sender signature on postmark account
