@@ -20,6 +20,17 @@ export default defineType({
             validation: (Rule) => Rule.required().error('Email Required'),
         },
         {
+            title: 'Google Spreadsheet ID',
+            name: 'spreadsheetId',
+            type: 'string',
+        },
+        {
+            title: 'Google Sheet Name',
+            name: 'sheetName',
+            type: 'string',
+            description: 'Allows form submissions to flow through Google Sheet'
+        },
+        {
             title: 'Cc',
             name: 'emailCc',
             type: 'string',
@@ -74,6 +85,11 @@ export default defineType({
                             validation: (Rule) => Rule.required().error('Name your input field'),
                         },
                         {
+                            title: 'Make Half Width',
+                            name: 'half',
+                            type: 'boolean'
+                        },
+                        {
                             title: 'Type',
                             name: 'type',
                             type: 'string',
@@ -87,10 +103,23 @@ export default defineType({
                                     { title: 'Select', value: 'select' },
                                     { title: 'Radio Buttons', value: 'radio' },
                                     { title: 'Textarea', value: 'textarea' },
+                                    { title: 'State', value: 'state' },
                                     // { title: 'File Attachments', value: 'file' }
                                     // Add more field types as needed
                                 ],
                             },
+                        },
+                        // {
+                        //     title: 'Display Inline',
+                        //     description: 'Makes button display next to field. Useful for newsletter or signups',
+                        //     name: 'inlineEmail',
+                        //     type: 'boolean',
+                        //     hidden: ({ parent }) => parent?.type !== "email",
+                        // },
+                        {
+                            title: 'Hide Label',
+                            name: 'hideLabel',
+                            type: 'boolean',
                         },
                         {
                             title: 'Required',
@@ -139,6 +168,11 @@ export default defineType({
             title: 'Form Disclaimer',
             name: 'formDisclaimer',
             type: 'contentEditor',
+        },
+        {
+            title: 'Make Stacked',
+            name: 'makeStacked',
+            type: 'boolean',
         },
     ],
 })
