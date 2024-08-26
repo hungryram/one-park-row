@@ -89,11 +89,11 @@ export default function Footer({
             <div className="leading-7 md:flex items-center text-left md:space-x-6 mb-6">
               <div>
                 <a className="font-semibold" href={`https://www.google.com/maps/place/${address}+${city}+${state}+${zip_code}`} target="_blank">{address} {city}, {state} {zip_code}</a>
-                <ul className="grid grid-cols-2 divide-x font-semibold">
-                  <li className="pr-4">
+                <ul className="md:grid grid-cols-2 font-semibold">
+                  <li className="md:pr-3 md:border-r">
                     <a href={`mailto:${email}`}>{email}</a>
                   </li>
-                  <li className="px-4">
+                  <li className="md:pl-3">
                     <a href={`tel:${phone_number}`}>{phone_number}</a>
                   </li>
                 </ul>
