@@ -11,6 +11,10 @@ body {
   @apply tracking-wide
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .section {
   @apply py-20
 }

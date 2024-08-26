@@ -60,7 +60,7 @@ export default function ContactPage({
     const allStyles = { ...backgroundStyles, ...styles }
 
     return (
-        <div style={allStyles} id={id}>
+        <div style={allStyles} id={'inquire'}>
             <div className="container">
                 <div className="md:flex items-center justify-center">
                     {!oneColumn &&

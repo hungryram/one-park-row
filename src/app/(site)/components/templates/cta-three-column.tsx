@@ -83,7 +83,7 @@ export default function CalltoActionThreeColumn({
                     }
                 </div>
                 <div className="mt-10 flex items-center gap-x-6 lg:mt-0 w-48 md:place-content-end place-content-center mx-auto">
-                    <Link href="mailto:oneparkrow@serhant.com" className="secondary-button !text-xl">Inquire</Link>
+                    <a href="#inquire" className="secondary-button !text-xl">Inquire</a>
                 </div>
             </div>
         </div>
