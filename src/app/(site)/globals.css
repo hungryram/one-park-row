@@ -32,7 +32,7 @@ html {
 }
 
 .primary-button {
-  @apply px-3 py-2 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply px-3 py-2 uppercase shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
   background-color: var(--primary-button-background);
   color: var(--primary-button-text);
   border-radius: var(--button-radius);
@@ -42,8 +42,9 @@ html {
   padding-bottom: var(--button-y-padding);}
 
 .secondary-button {
-  @apply px-3 py-2 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
-  background-color: var(--secondary-button-background);
+  @apply px-3 py-2 border !rounded-lg;
+  background-color: transparent;
+  border-color: var(--secondary-button-background);
   color: var(--secondary-button-text);
   border-radius: var(--button-radius);
   padding-left: var(--button-x-padding);

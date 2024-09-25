@@ -25,6 +25,7 @@ import TestimonialsColumn from "./testimonials-column";
 import Map from "./map";
 import AvailabilityTable from "./availability-table";
 import CalltoActionThreeColumn from "./cta-three-column";
+import CallToActionCustom from "./cta-custom";
 
 interface Props {
     pageBuilder: any[];
@@ -292,6 +293,17 @@ export default function Main({
 
                                 />
                             }
+                            {section.layoutType === 'custom' &&
+                                <CallToActionCustom
+                                    key={section?._key}
+                                    textOne={section?.textOne}
+                                    textTwo={section?.textTwo}
+                                    textAlign={section?.textAlign}
+                                    content={section?.content}
+                                    {...settingsSchema}
+
+                                />
+                            }
                             {section.layoutType === 'threeColumn' &&
                                 <CalltoActionThreeColumn
                                     key={section?._key}
@@ -301,7 +313,6 @@ export default function Main({
                                     altText={section?.imageData?.asset?.altText}
                                     blurData={section?.imageData?.asset?.lqip}
                                     {...settingsSchema}
-
                                 />
                             }
                             {section.layoutType === 'textAndImage' &&
@@ -309,9 +320,12 @@ export default function Main({
                                     key={section?._key}
                                     image={section?.imageData?.asset?.url}
                                     content={section?.content}
+                                    columnLayout={section?.columnLayout}
                                     reverseColumn={section?.reverseColumn}
                                     altText={section?.imageData?.asset?.altText}
                                     blurData={section?.imageData?.asset?.lqip}
+                                    containerBorder={section?.enableContainerBorder}
+                                    enableImageBorder={section?.enableImageBorder}
                                     {...settingsSchema}
                                     textAlign={section?.textAlign}
                                 />

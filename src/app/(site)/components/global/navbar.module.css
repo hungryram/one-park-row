@@ -11,6 +11,33 @@
   right: 0;
 }
 
+.hamburger span {
+    height: 2px;
+    width: 40px;
+    @apply mb-1 block;
+    background-color: var(--primary-accent);
+}
+
+.hamburgerOpen span {
+    background-color: white;
+    @apply transition-all duration-500;
+}
+
+.hamburgerMiddle {
+    height: 2px;
+    width: 20px!important;
+    @apply mb-1 block transition-all duration-500;
+    background-color: var(--primary-accent);
+}
+
+.hamburger:hover .hamburgerMiddle {
+    height: 2px;
+    width: 40px!important;
+    @apply mb-1 block transition-all duration-500;
+    background-color: var(--primary-accent);
+}
+
+
 .topHeader {
     background-color: var(--top-header-background);
     color: var(--top-header-text-color);

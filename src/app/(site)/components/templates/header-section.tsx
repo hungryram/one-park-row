@@ -1,5 +1,6 @@
 import Link from "next/link"
 import ContentEditor from "../util/content-editor"
+import { PiCaretDoubleRightBold } from "react-icons/pi";
 
 export default function HeaderSection({
   content,
@@ -45,7 +46,7 @@ export default function HeaderSection({
             )}
             {secondaryButtonLinking && (
               <Link href={secondaryButtonLinking} className="secondary-button" style={secondaryButtonStyle} target={secondaryButtonLink.externalUrl && '_blank'}>
-                {secondaryButtonText} <span aria-hidden="true">→</span>
+                {secondaryButtonText} <PiCaretDoubleRightBold className="text-2xl text-[#bb9788]"/>
               </Link>
             )}
           </div>

@@ -1,12 +1,22 @@
 'use client'
-import { Popover, Transition, Disclosure } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Dialog, Menu, Transition, Popover } from "@headlessui/react";
 import Link from 'next/link'
 import Image from 'next/image'
 import { Fragment, useEffect, useState } from 'react'
 import Styles from "./navbar.module.css"
+import { useRouter } from 'next/navigation';
+import {
+  Bars3CenterLeftIcon,
+  ShoppingCartIcon,
+  XMarkIcon,
+  ChevronDownIcon
+} from "@heroicons/react/24/outline";
 
-export interface NavbarProps {
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
+}
+
+interface Props {
   company_name: string
   logo: string;
   navItems: any;
@@ -19,9 +29,7 @@ export interface NavbarProps {
   ctaLink: any;
   mobileLogoWidth: number;
   hideCta: boolean;
-  enableTransparent: boolean;
 }
-
 
 export default function Navbar({
   company_name,
@@ -29,15 +37,16 @@ export default function Navbar({
   navItems,
   logoWidth,
   phone,
-  email,
-  office,
-  enableTopHeader,
-  ctaLink,
-  mobileLogoWidth,
-  hideCta,
-  enableTransparent
-}: NavbarProps) {
+  ctaLink
+}: Props) {
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLinkClick = (menuLinks: string) => {
+    setSidebarOpen(false);
+    router.push(menuLinks);
+  };
 
   const [scroll, setScroll] = useState(false);
 
@@ -53,6 +62,8 @@ export default function Navbar({
     };
   }, []);
 
+
+
   const ctaLinking =
     (ctaLink?.internalLink?._type === "pages" && `/${ctaLink?.internalLink.slug}`) ||
     (ctaLink?.internalLink?._type === "blog" && `/blog/${ctaLink?.internalLink.slug}`) ||
@@ -61,303 +72,212 @@ export default function Navbar({
     (ctaLink?.internalLink?._type === "team" && `/team/${ctaLink?.internalLink.slug}`) ||
     (ctaLink?.externalUrl && `${ctaLink?.externalUrl}`)
 
-  // Sets logo condition based on scroll events. When scrolling, logo decreases by 30%
-  const logoScroll = scroll ? (logoWidth ?? '200') * 0.7 : logoWidth ?? '200';
-
-  // Sets mobile logo condition based on scroll events. When scrolling, logo decreases by 30%
-  const mobileLogoScroll = scroll ? (mobileLogoWidth ?? '140') * 0.7 : mobileLogoWidth ?? '140';
-
   return (
     <>
-      <header className={`${Styles.header} ${scroll ? Styles.stickyHeader : '-top-52'} ease-in-out transition-all duration-700 ${enableTransparent ? 'absolute left-0 right-0 z-50 top-0' : `shadow ${Styles.navbarBarColor}`}`}>
-        {enableTopHeader &&
-          <div className={`${Styles.topHeader} ${scroll && 'hidden'}`}>
-            <div className={Styles.topHeaderContainer}>
-              <div />
-              <div className="flex items-center space-x-6">
-                {email && <a href={`mailto:${email}`} className="text-sm">{email}</a>}
-                {phone && <a href={`tel:${phone}`} className="text-sm">Direct: {phone}</a>}
-                {office && <a href={`tel:${office}`} className="text-sm">Office: {office}</a>}
-              </div>
+      <Transition.Root show={sidebarOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-40"
+          onClose={setSidebarOpen}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="transition-opacity duration-500"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-500"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-40 flex flex-row">
+            <Transition.Child
+              as={Fragment}
+              enter="transition duration-500 ease-in-out"
+              enterFrom="-translate-x-full"
+              enterTo="translate-x-0"
+              leave="transition duration-500 ease-in-out"
+              leaveFrom="translate-x-0"
+              leaveTo="-translate-x-full"
+            >
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-col bg-accent pb-4 pt-5">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-in-out duration-500"
+                  enterFrom="opacity-0 translate-x-4"
+                  enterTo="opacity-100 translate-x-0"
+                  leave="ease-in-out duration-500"
+                  leaveFrom="opacity-100 translate-x-0"
+                  leaveTo="opacity-0 translate-x-4"
+                >
+                  <div className="absolute left-0 top-0 -mr-12 pt-2 z-50">
+                    {/* <button
+                      type="button"
+                      className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
+                      onClick={() => setSidebarOpen(false)}
+                    >
+                      <span className="sr-only">Close sidebar</span>
+                      <XMarkIcon
+                        className="h-6 w-6 text-black"
+                        aria-hidden="true"
+                      />
+                    </button> */}
+                  </div>
+                </Transition.Child>
+                <nav
+                  className="mt-5 h-full flex-shrink-0 divide-y divide-cyan-800 overflow-y-auto"
+                  aria-label="Navbar"
+                >
+                  <div className="space-y-1 px-2 mt-20 text-white">
+                    {navItems.map((link: any) => {
+                      const menuLinks =
+                        (link.internalLink?._type === "pages" &&
+                          `/${link.internalLink.slug}`) ||
+                        (link.internalLink?._type === "blog" &&
+                          `/blog/${link.internalLink.slug}`) ||
+                        (link.internalLink?._type === "legal" &&
+                          `/legal/${link.internalLink.slug}`) ||
+                        (link.internalLink?._type === "services" &&
+                          `/services/${link.internalLink.slug}`) ||
+                        (link.externalUrl && `${link.externalUrl}`);
+
+                      if (link?.subMenu?.length > 0) {
+                        return (
+                          <Popover className="relative" key={link._key}>
+                            {({ open }) => (
+                              <>
+                                <Popover.Button
+                                  className={
+                                    "group rounded-md inline-flex items-center outline-none"
+                                  }
+                                  onClick={() => router.push(menuLinks ?? '/')}
+                                >
+                                  <span className="group flex items-center rounded-md px-2 py-2 text-lg font-medium leading-6">
+                                    {link?.text}
+                                  </span>
+                                  <ChevronDownIcon
+                                    className={`ml-2 h-4 w-4`}
+                                    aria-hidden="true"
+                                  />
+                                </Popover.Button>
+
+                                <Transition
+                                  as={Fragment}
+                                  enter="transition ease-out duration-200"
+                                  enterFrom="opacity-0 translate-y-1"
+                                  enterTo="opacity-100 translate-y-0"
+                                  leave="transition ease-in duration-150"
+                                  leaveFrom="opacity-100 translate-y-0"
+                                  leaveTo="opacity-0 translate-y-1"
+                                >
+                                  <Popover.Panel>
+                                    <div className="overflow-hidden">
+                                      <div className="relative grid lg:bg-white px-5 py-3">
+                                        {link.subMenu.map((sub: any) => {
+                                          const subMenuLinks =
+                                            (sub.internalLink?._type ===
+                                              "blog" &&
+                                              `/blog/${sub.internalLink.slug}`) ||
+                                            (sub.internalLink?._type ===
+                                              "legal" &&
+                                              `/legal/${sub.internalLink.slug}`) ||
+                                            (sub.internalLink?._type ===
+                                              "pages" &&
+                                              `/${sub.internalLink.slug}`) ||
+                                            (sub.internalLink?._type ===
+                                              "services" &&
+                                              `/services/${sub.internalLink.slug}`) ||
+                                            (sub.internalLink?._type ===
+                                              "locations" &&
+                                              `/locations${sub.internalLink.slug}`) ||
+                                            (sub.externalUrl &&
+                                              `${sub.externalUrl}`);
+
+                                          return (
+                                            <Link
+                                              key={sub._key}
+                                              href={subMenuLinks ?? "/"}
+                                              target={sub.newTab && "_blank"}
+                                              className="group flex items-center rounded-md px-2 py-2 text-xl font-medium leading-6"
+                                              onClick={() => handleLinkClick(subMenuLinks ?? '/')}
+                                            >
+                                              {sub.text}
+                                            </Link>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  </Popover.Panel>
+                                </Transition>
+                              </>
+                            )}
+                          </Popover>
+                        );
+                      } else {
+                        return (
+                          <Link
+                            key={link.name}
+                            href={menuLinks ?? '/'}
+                            className="group flex items-center rounded-md px-2 py-4 text-xl font-medium leading-6"
+                            onClick={() => {
+                              handleLinkClick(); // Close the menu when the link is clicked
+                            }}
+                          >
+                            {link.text}
+                          </Link>
+                        );
+                      }
+                    })}
+                  </div>
+                </nav>
+              </Dialog.Panel>
+            </Transition.Child>
+            <div className="w-14 flex-shrink-0" aria-hidden="true">
+              {/* Dummy element to force sidebar to shrink to fit close icon */}
             </div>
           </div>
-        }
-        <nav className={Styles.navWrapper} aria-label="Global">
-          <div className={Styles.desktopLogoContainer}>
+        </Dialog>
+      </Transition.Root>
+
+      <div className={`w-full lg:px-4 px-2 sm:px-10 py-6 z-10 duration-500 transition-all ${scroll ? Styles.stickyHeader : '-top-52'}`}>
+        <div className="flex py-2">
+          <div className="flex flex-1 justify-start lg:mx-auto w-full !z-50">
+            <button
+              type="button"
+              className="focus:outline-none focus:ring-2 focus:ring-inset !z-50 relative"
+              onClick={() => setSidebarOpen((prevState) => !prevState)}
+            >
+              <span className="sr-only">Toggle sidebar</span>
+              <div className={`${Styles.hamburger} ${sidebarOpen ? Styles.hamburgerOpen : ''}`}>
+                <span></span>
+                <span className={Styles.hamburgerMiddle}></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
+          <div className="flex-1 justify-center text-center mx-auto">
             <Link href="/">
-              {logo ?
+              {logo ? (
                 <Image
                   src={logo}
-                  width={logoScroll}
+                  width={logoWidth}
                   height={10}
                   alt={company_name}
+                  className="text-center mx-auto"
                 />
-                :
+              ) : (
                 <h1 className="text-3xl">{company_name}</h1>
-              }
+              )}
             </Link>
           </div>
-          <div className={Styles.desktopMenuContainer}>
-            {navItems?.map((link: any) => {
-
-              const menuLinks =
-                (link.internalLink?._type === "pages" && `/${link.internalLink.slug}`) ||
-                (link.internalLink?._type === "blog" && `/blog/${link.internalLink.slug}`) ||
-                (link.internalLink?._type === "legal" && `/legal/${link.internalLink.slug}`) ||
-                (link.internalLink?._type === "services" && `/services/${link.internalLink.slug}`) ||
-                (link.internalLink?._type === "team" && `/team/${link.internalLink.slug}`) ||
-                (link.internalLink?._type === "homeDesign" && `/`) ||
-                (link.externalUrl && `${link.externalUrl}`)
-
-              if (link?.subMenu?.length > 0) {
-                return (
-                  <Popover className="relative" key={link._key}>
-                    {({ open }) => (
-                      <>
-                        <Popover.Button
-                          className={`${Styles.navLinks}`}
-                        >
-                          {link?.text}
-                          <ChevronDownIcon
-                            className={`ml-2 h-4 w-4`}
-                            aria-hidden="true"
-                          />
-                        </Popover.Button>
-
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-200"
-                          enterFrom="opacity-0 translate-y-1"
-                          enterTo="opacity-100 translate-y-0"
-                          leave="transition ease-in duration-150"
-                          leaveFrom="opacity-100 translate-y-0"
-                          leaveTo="opacity-0 translate-y-1"
-                        >
-                          <Popover.Panel className={Styles.desktopPopOverPanel}>
-                            <div className="rounded-sm shadow-lg overflow-hidden">
-                              <div className={Styles.desktopDropDown}>
-                                {link?.subMenu?.map((sub: any) => {
-
-                                  const subMenuLinks =
-                                    (sub.internalLink?._type === "blog" && `/blog/${sub.internalLink.slug}`) ||
-                                    (sub.internalLink?._type === "legal" && `/legal/${sub.internalLink.slug}`) ||
-                                    (sub.internalLink?._type === "pages" && `/${sub.internalLink.slug}`) ||
-                                    (sub.internalLink?._type === "services" && `/services/${sub.internalLink.slug}`) ||
-                                    (sub.internalLink?._type === "team" && `/team/${sub.internalLink.slug}`) ||
-                                    (sub.internalLink?._type === "homeDesign" && `/`) ||
-                                    (sub.externalUrl && `${sub.externalUrl}`)
-
-                                  return (
-                                    <>
-                                      {sub.externalUrl ?
-                                        <a href={sub.externalUrl ?? '/'} className={`${Styles.navLinks} text-black py-2`} id={sub._key} target={sub?.newTab && '_blank'}>{sub.text}</a>
-                                        :
-                                        <Popover.Button
-                                          as={Link}
-                                          key={sub._key}
-                                          id={sub._id}
-                                          href={subMenuLinks ?? '/'}
-                                          target={sub.newTab && '_blank'}
-                                          className={`${Styles.navLinks} text-black py-2`}
-                                        >
-                                          {sub.text}
-                                        </Popover.Button>
-                                      }
-                                    </>
-                                  )
-                                })}
-                              </div>
-                            </div>
-                          </Popover.Panel>
-                        </Transition>
-                      </>
-                    )}
-                  </Popover>
-                )
-              } else {
-                return (
-                  <>
-                    {link.externalUrl ?
-                      <a href={link.externalUrl} id={link._id} className={Styles.navLinks} target={link?.newTab && '_blank'}>{link.text}</a>
-                      :
-                      <Link
-                        key={link._id}
-                        id={link._id}
-                        href={menuLinks}
-                        className={Styles.navLinks}
-                        target={link?.newTab && '_blank'}
-                      >
-                        {link.text}
-                      </Link>
-                    }
-                  </>
-                )
-              }
-            })}
+          <div className="flex flex-1 justify-end lg:mx-auto w-full items-center">
+            <a href={`tel:${phone}`} className="mx-3">{phone}</a>
+            <Link href={`/contact`} className={`${Styles.navLinks} primary-button`} target="_blank">CONTACT US</Link>
           </div>
-          {!hideCta && ctaLinking &&
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-              <Link href={ctaLinking ?? '/'} className="primary-button">
-                {ctaLink?.text} <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-          }
-        </nav>
-      </header>
-
-      {/* MOBILE */}
-
-      <Disclosure as="nav" className={`${Styles.mobileHeaderMenu} ${scroll ? Styles.stickyHeader : '-top-52'} ease-in-out transition-all duration-700 ${enableTransparent ? 'absolute left-0 right-0 z-50 top-0' : 'shadow'}`}>
-        {({ open }) => (
-          <>
-            {enableTopHeader &&
-              <div className={`${Styles.topHeader} ${scroll && 'hidden'}`}>
-                <div className={ctaLinking ? 'flex items-center space-x-6 h-full justify-end' : 'py-4'}>
-                  {ctaLinking &&
-                    <Link href={ctaLinking ?? '/'} className="h-full px-8 py-2 font-normal">
-                      {ctaLink?.text} <span aria-hidden="true">&rarr;</span>
-                    </Link>
-                  }
-                </div>
-              </div>
-            }
-            <div className="mx-auto max-w-7xl py-2 px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <div className="flex flex-shrink-0 items-center">
-                    <Link href="/">
-                      {logo ?
-                        <Image
-                          src={logo}
-                          width={mobileLogoScroll}
-                          height={10}
-                          alt={company_name}
-                        />
-                        :
-                        <h1 className="text-3xl">{company_name}</h1>
-                      }
-                    </Link>
-                  </div>
-                </div>
-                <div className="-mr-2 flex items-center lg:hidden">
-                  {/* Mobile menu button */}
-                  <Disclosure.Button className={Styles.mobileDisclosureButton}>
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
-                </div>
-              </div>
-            </div>
-
-            <Disclosure.Panel className="lg:hidden">
-              <div className={`space-y-1 pb-3 pt-2 px-4 ${Styles.menuBarColor}`}>
-                {navItems?.map((link: any) => {
-                  const menuLinks =
-                    (link.internalLink?._type === "pages" && `/${link.internalLink.slug}`) ||
-                    (link.internalLink?._type === "blog" && `/blog/${link.internalLink.slug}`) ||
-                    (link.internalLink?._type === "legal" && `/legal/${link.internalLink.slug}`) ||
-                    (link.internalLink?._type === "services" && `/services/${link.internalLink.slug}`) ||
-                    (link.internalLink?._type === "team" && `/team/${link.internalLink.slug}`) ||
-                    (link.internalLink?._type === "homeDesign" && `/`) ||
-                    (link.externalUrl && `${link.externalUrl}`)
-
-                  if (link?.subMenu?.length > 0) {
-                    return (
-                      <Popover className="relative" key={link._key}>
-                        {({ open }) => (
-                          <>
-                            <Popover.Button
-                              className={'group rounded-md inline-flex items-center outline-non'}
-                            >
-                              <span className={Styles.navLinks}>{link?.text}</span>
-                              <ChevronDownIcon
-                                className={`ml-2 h-4 w-4`}
-                                aria-hidden="true"
-                              />
-                            </Popover.Button>
-
-                            <Transition
-                              as={Fragment}
-                              enter="transition ease-out duration-200"
-                              enterFrom="opacity-0 translate-y-1"
-                              enterTo="opacity-100 translate-y-0"
-                              leave="transition ease-in duration-150"
-                              leaveFrom="opacity-100 translate-y-0"
-                              leaveTo="opacity-0 translate-y-1"
-                            >
-                              <Popover.Panel className="z-50 -ml-4 transform px-2 w-screen max-w-xs sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
-                                <div className="overflow-hidden">
-                                  <div className="relative grid lg:bg-white px-5 py-3">
-                                    {link?.subMenu?.map((sub: any) => {
-
-                                      const subMenuLinks =
-                                        (sub.internalLink?._type === "blog" && `/blog/${sub.internalLink.slug}`) ||
-                                        (sub.internalLink?._type === "legal" && `/legal/${sub.internalLink.slug}`) ||
-                                        (sub.internalLink?._type === "pages" && `/${sub.internalLink.slug}`) ||
-                                        (sub.internalLink?._type === "services" && `/services/${sub.internalLink.slug}`) ||
-                                        (sub.internalLink?._type === "team" && `/team${sub.internalLink.slug}`) ||
-                                        (sub.internalLink?._type === "homeDesign" && `/`) ||
-                                        (sub.externalUrl && `${sub.externalUrl}`)
-                                      return (
-                                        <>
-                                          {sub.externalUrl ?
-                                            <a href={sub.externalUrl ?? '/'} className={`${Styles.navLinks} py-2`} id={sub._key} target={sub?.newTab && '_blank'}>{sub.text}</a>
-                                            :
-                                            <Disclosure.Button as={Link} href={subMenuLinks ?? '/'} className={Styles.navLinks} target={sub.newTab && '_blank'} key={sub._key}>
-                                              {sub.text}
-                                            </Disclosure.Button>
-                                          }
-                                        </>
-                                      )
-                                    })}
-                                  </div>
-                                </div>
-                              </Popover.Panel>
-                            </Transition>
-                          </>
-                        )}
-                      </Popover>
-                    )
-                  } else {
-                    return (
-                      <>
-                        {link.externalUrl
-                          ?
-                          <a className={Styles.navLinks} href={link.externalUrl} key={link._key} target={link.newTab && '_blank'}>{link.text}</a>
-                          :
-                          <Disclosure.Button as={Link} href={menuLinks ?? '/'} className={Styles.navLinks} target={link.newTab && '_blank'} key={link._key}>
-                            {link.text}
-                          </Disclosure.Button>
-                        }
-                      </>
-                    )
-                  }
-                })}
-              </div>
-              <div className={Styles.mobileDropDownContact}>
-                {ctaLinking &&
-                  <div className="mb-6">
-                    <Disclosure.Button as={Link} href={ctaLinking ?? '/'} className="primary-button block text-center mx-4">
-                      {ctaLink?.text} <span aria-hidden="true">&rarr;</span>
-                    </Disclosure.Button>
-                  </div>
-                }
-                <div className="px-4">
-                  <div className="items-center space-y-3 opacity-80 grid grid-cols-1">
-                    {email && <a href={`mailto:${email}`} className="text-sm"><span className="font-semibold">Email:</span> {email}</a>}
-                    {phone && <a href={`tel:${phone}`} className="text-sm"><span className="font-semibold">Direct:</span> {phone}</a>}
-                    {office && <a href={`tel:${office}`} className="text-sm"><span className="font-semibold">Office:</span> {office}</a>}
-                  </div>
-                </div>
-              </div>
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
+        </div>
+      </div>
     </>
   )
 }

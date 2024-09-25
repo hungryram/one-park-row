@@ -20,10 +20,48 @@ export default defineType({
                     { title: "Text and Image", value: "textAndImage" },
                     { title: "Left Text with Right Buttons", value: "ButtonRightTextLeft" },
                     { title: "Full Width Text & Image", value: "fullWidthTextImage" },
-                    { title: "Three Column", value: "threeColumn" },
+                    { title: "Text and Youtube", value: "textAndYoutube" },
+                    { title: "Custom", value: "custom" },
                 ],
             },
             initialValue: "banner"
+        },
+        {
+            title: "Column Layout",
+            name: "columnLayout",
+            type: "string",
+            hidden: ({ parent }) => parent?.layoutType !== 'textAndYoutube' && parent?.layoutType !== "textAndImage",
+            options: {
+                list: [
+                    { title: "1/2 Columns", value: "half" },
+                    { title: "2/5 and 3/5", value: "twoFifths" },
+                    { title: "1/3 and 2/3", value: "oneThird" },
+                    { title: "1/5 and 4/5", value: "oneFifth" },
+                ],
+            },
+            initialValue: "half"
+        },
+        {
+            title: 'Text One',
+            name: 'textOne',
+            type: 'string',
+            hidden: ({ parent }) => parent.layoutType !== 'custom'
+        },
+        {
+            title: 'Text Two',
+            name: 'textTwo',
+            type: 'string',
+            hidden: ({ parent }) => parent.layoutType !== 'custom'
+        },
+        {
+            title: 'Enable Container Border',
+            name: 'enableContainerBorder',
+            type: 'boolean'
+        },
+        {
+            title: 'Enable Image Border',
+            name: 'enableImageBorder',
+            type: 'boolean'
         },
         {
             title: 'Text',
@@ -44,7 +82,13 @@ export default defineType({
             title: 'Image',
             name: 'image',
             type: 'image',
-            hidden: ({ parent }) => parent?.layoutType === "banner" || parent?.layoutType === "ButtonRightTextLeft"
+            hidden: ({ parent }) => parent?.layoutType === "banner" || parent?.layoutType === "ButtonRightTextLeft" || parent?.layoutType === 'textAndYoutube'
+        },
+        {
+            title: 'Youtube Link',
+            name: 'youtube',
+            type: 'url',
+            hidden: ({ parent }) => parent?.layoutType !== 'textAndYoutube'
         },
         {
             title: 'Reverse Column',
